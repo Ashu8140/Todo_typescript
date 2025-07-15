@@ -9,8 +9,7 @@ function Todo() {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editValue, setEditValue] = useState<string>("");
 
-  // Update localStorage every time items change
-  // Good practice: useEffect can be used in real apps for side-effects like this
+  // Save to localStorage on change
   localStorage.setItem("list", JSON.stringify(item));
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -27,7 +26,7 @@ function Todo() {
   function handleDelete(index: number) {
     setItem(item.filter((_, i) => i !== index));
     if (editIndex === index) {
-      setEditIndex(null); // cancel edit if the item being edited is deleted
+      setEditIndex(null);
     }
   }
 
@@ -47,73 +46,74 @@ function Todo() {
   }
 
   return (
-    <div className="bg-blue-300  h-screen p-4  shadow-lg justify-center ">
-      <div className="bg-white p-10 rounded-xl shadow-md w-auto text-center ">
-        
-     <div className="relative w-full max-w-md mx-auto mt-6">
-  <input
-    value={query}
-    onChange={handleChange}
-    className="w-full border border-black p-2  rounded-3xl"
-    placeholder="Enter the task"
-  />
-  <button
-    onClick={Add}
-    className="absolute right-0 top-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-3xl"
-  >
-    Add
-  </button>
-</div>
+    <div className="min-h-screen bg-blue-300 p-4 flex items-center justify-center">
+      <div className="bg-white p-5 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
+        <h1 className="text-2xl font-bold text-center text-blue-700 mb-6">Todo List</h1>
 
-  {item.map((task, index) => (
-    <ul
-      key={index}
-      className="flex justify-between mt-2 text-start border border-black py-2 px-2 text-gray-800"
-    >
-      {editIndex === index ? (
-        <div className="flex w-full items-center gap-2">
+        <div className="relative mb-4">
           <input
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            className="border border-black px-2 py-1 rounded-md flex-1"
+            value={query}
+            onChange={handleChange}
+            className="w-full border border-black p-3 rounded-full text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter the task"
           />
           <button
-            onClick={handleUpdate}
-            className="bg-green-500 text-white px-3 py-1 rounded-md"
+            onClick={Add}
+            className="absolute right-1 top-1/2 -translate-y-1/2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm sm:text-base"
           >
-            Save
-          </button>
-          <button
-            onClick={() => setEditIndex(null)}
-            className="bg-gray-400 text-white px-3 py-1 rounded-md"
-          >
-            Cancel
+            Add
           </button>
         </div>
-      ) : (
-        <>
-          <span className="flex-1">{task}</span>
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleEdit(index)}
-              className="bg-blue-500 text-white px-3 py-1 rounded-md"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(index)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md"
-            >
-              Delete
-            </button>
-          </div>
-        </>
-      )}
-    </ul>
-  ))}
 
-    
-    </div>
+        <div className="space-y-3">
+          {item.map((task, index) => (
+            <li
+              key={index}
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border border-gray-300 bg-gray-100 px-4 py-3 rounded-lg text-sm sm:text-base"
+            >
+              {editIndex === index ? (
+                <div className="flex flex-col sm:flex-row w-full gap-2">
+                  <input
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value)}
+                    className="flex-1 border border-black p-2 rounded-md w-full"
+                  />
+                  <button
+                    onClick={handleUpdate}
+                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md w-full sm:w-auto"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditIndex(null)}
+                    className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-md w-full sm:w-auto"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <span className="flex-1 break-words">{task}</span>
+                  <div className="flex gap-2 mt-2 sm:mt-0">
+                    <button
+                      onClick={() => handleEdit(index)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(index)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </li>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
