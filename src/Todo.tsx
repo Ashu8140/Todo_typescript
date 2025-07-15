@@ -47,7 +47,7 @@ function Todo() {
   }
 
   return (
-    <div className="bg-blue-300  h-screen p-20  shadow-lg justify-center ">
+    <div className="bg-blue-300  h-screen p-4  shadow-lg justify-center ">
       <div className="bg-white p-10 rounded-xl shadow-md w-auto text-center ">
         
      <div className="relative w-full max-w-md mx-auto mt-6">
@@ -65,11 +65,10 @@ function Todo() {
   </button>
 </div>
 
-      <ul className="mt-4">
   {item.map((task, index) => (
-    <li
+    <ul
       key={index}
-      className="flex justify-between text-start border border-black py-2 px-4 text-gray-800"
+      className="flex justify-between mt-2 text-start border border-black py-2 px-2 text-gray-800"
     >
       {editIndex === index ? (
         <div className="flex w-full items-center gap-2">
@@ -110,9 +109,8 @@ function Todo() {
           </div>
         </>
       )}
-    </li>
+    </ul>
   ))}
-</ul>
 
     
     </div>
